@@ -1,4 +1,4 @@
-//processes plain messages
+// Processes plain messages
 void plainMsgFunct(String plainMsgString) {
   strcpy(newMessage, plainMsgString.c_str());
   PRINT("\nMQTT Plain Message Received!\nMQTT Message:\n", newMessage);
@@ -17,7 +17,7 @@ void plainMsgFunct(String plainMsgString) {
   newAsciiConvAvailable = true;
 }
 
-//function called when an MQTT message is received
+// Function called when an MQTT message is received
 void mqttCallBack(const char *topic, byte *payload, unsigned int length) {
   PRINTS("\nMQTT CALLBACK SEEN!")
   String PayloadString = "";
@@ -25,13 +25,13 @@ void mqttCallBack(const char *topic, byte *payload, unsigned int length) {
   for (int i = 0; i < length; i++) {
     PayloadString += (char)payload[i];
   }
-  //matches when messages come in with topic NOT ending in /json and when topic configured is NOT wildcard #
+  // Matches when messages come in with topic NOT ending in /json and when topic configured is NOT wildcard #
   if ((String(topic).startsWith((String(mqttTopicPrefix))) && ((String(topic).endsWith("/json")) == false)) ||
   ((String(topic).startsWith(String(mqttTopicRoot))) && ((String(topic).endsWith("/json")) == false)) ||
   (strcmp(topic, (char*) (String(mqttTopicDevice) + "").c_str()) == 0)) {
     plainMsgFunct(PayloadString);
   }
-  //matches when messages come in with topic ending in /json and when topic configured is NOT wildcard #
+  // Matches when messages come in with topic ending in /json and when topic configured is NOT wildcard #
   else if ((String(topic).startsWith((String(mqttTopicPrefix))) && ((String(topic).endsWith("/json")) == true)) ||
   ((String(topic).startsWith(String(mqttTopicRoot))) && ((String(topic).endsWith("/json")) == true)) ||
   ((String(topic).startsWith(String(mqttTopicDevice))) && ((String(topic).endsWith("/json")) == true)) ||
@@ -51,7 +51,7 @@ void mqttConnectProc(char mqttAlertMessageIn[128], bool buzz) {
   Serial.print(clientId);
   PRINT(" connected to MQTT Server: ", mqttServerAddress);
   PRINT(":", mqttServerPort);
-  //// Once connected, publish an announcement...
+  // Once connected, publish an announcement...
   mqttClient.publish((char*) (String(mqttTopicDevice) + "/status").c_str(), "Connected");//clientId.c_str());
   PRINT("\nPublishing to topic ", (String(mqttTopicDevice)  + "/status"));
   PRINTS(": connected");
@@ -220,7 +220,6 @@ void saveMqttConfiguration(const char *mqttConfigFile, const mqttConfigObj &mqtt
   if (serializeJson(doc, file) == 0) {
     Serial.println(F("Failed to write to file"));
   }
-  
   // Close the file
   file.close();
 }
@@ -228,7 +227,6 @@ void saveMqttConfiguration(const char *mqttConfigFile, const mqttConfigObj &mqtt
 // Prints the content of a file to the Serial
 void printMqttFile(const char *mqttConfigFile) {
   // Open file for reading
-
   File file = LittleFS.open(mqttConfigFile, "r");
   if (!file) {
     Serial.println("Failed to open data file");
@@ -244,9 +242,9 @@ void printMqttFile(const char *mqttConfigFile) {
   file.close();
 }
 
-//change login credentials and store into config file
+// Change login credentials and store into config file
 void changeMqttConfig() {
-  //set new mqtt config values from webpage to config object
+  // Set new mqtt config values from webpage to config object
   if (newMqttOnOffAvailable) {
     strlcpy(mqttConfig.onOffMqttHolder, newMqttOnOff, sizeof(mqttConfig.onOffMqttHolder));
   }
@@ -271,9 +269,9 @@ void changeMqttConfig() {
   if (newMqttTopicPrefixAvailable) {
     strlcpy(mqttConfig.topicPrefixMqttHolder, newMqttTopicPrefix, sizeof(mqttConfig.topicPrefixMqttHolder));
   }
-  //save new mqtt config values set from config object to config file
+  // Save new mqtt config values set from config object to config file
   saveMqttConfiguration(mqttConfigFile, mqttConfig);
-  //apply the new mqtt config values as running values
+  // Apply the new mqtt config values as running values
   strlcpy(mqttOnOff, mqttConfig.onOffMqttHolder, sizeof(mqttOnOff));
   strlcpy(mqttAnonymous, mqttConfig.anonymousMqttHolder, sizeof(mqttAnonymous));
   strlcpy(mqttAlert, mqttConfig.alertMqttHolder, sizeof(mqttAlert));
@@ -306,56 +304,56 @@ void changeMqttConfig() {
 }
 
 void initMqttStoreConfig() {
-  //load config stored in config file
+  // Load config stored in config file
   Serial.println(F("Loading Mqtt configuration...\n"));
   loadMqttConfiguration(mqttConfigFile, mqttConfig);
-  //if no onoff is defined in config file store default
+  // If no onoff is defined in config file store default
   if ((mqttConfig.onOffMqttHolder != NULL) && (mqttConfig.onOffMqttHolder[0] == '\0')) {
     PRINT("no onoff set, setting default onoff: ", mqttOnOff);
     strlcpy(mqttConfig.onOffMqttHolder, mqttOnOff, sizeof(mqttConfig.onOffMqttHolder));
     saveMqttConfigAtStart = true;
   }
-  //if no anonymous is defined in config file store default
+  // If no anonymous is defined in config file store default
   if ((mqttConfig.anonymousMqttHolder != NULL) && (mqttConfig.anonymousMqttHolder[0] == '\0')) {
     PRINT("no anonymous set, setting default anonymous: ", mqttAnonymous);
     strlcpy(mqttConfig.anonymousMqttHolder, mqttAnonymous, sizeof(mqttConfig.anonymousMqttHolder));
     saveMqttConfigAtStart = true;
   }
-  //if no alert is defined in config file store default
+  // If no alert is defined in config file store default
   if ((mqttConfig.alertMqttHolder != NULL) && (mqttConfig.alertMqttHolder[0] == '\0')) {
     PRINT("no alert set, setting default alert: ", mqttAlert);
     strlcpy(mqttConfig.alertMqttHolder, mqttAlert, sizeof(mqttConfig.alertMqttHolder));
     saveMqttConfigAtStart = true;
   }
-  //if no username is defined in config file store default
+  // If no username is defined in config file store default
   if ((mqttConfig.usernameMqttHolder != NULL) && (mqttConfig.usernameMqttHolder[0] == '\0')) {
     PRINTS("\n")
     PRINT("no username set, setting default username: ", mqttUsername);
     strlcpy(mqttConfig.usernameMqttHolder, mqttUsername, sizeof(mqttConfig.usernameMqttHolder));
     saveMqttConfigAtStart = true;
   }
-  //if no password is defined in config file store default
+  // If no password is defined in config file store default
   if ((mqttConfig.passwordMqttHolder != NULL) && (mqttConfig.passwordMqttHolder[0] == '\0')) {
     PRINTS("\n")
     PRINT("no password set, setting default password: ", mqttPassword);
     strlcpy(mqttConfig.passwordMqttHolder, mqttPassword, sizeof(mqttConfig.passwordMqttHolder));
     saveMqttConfigAtStart = true;
   }
-  //if no mqtt server address is defined in config file store default
+  // If no mqtt server address is defined in config file store default
   if ((mqttConfig.serverAddressMqttHolder != NULL) && (mqttConfig.serverAddressMqttHolder[0] == '\0')) {
     PRINTS("\n")
     PRINT("no mqtt server address set, setting default mqtt server address: ", mqttServerAddress);
     strlcpy(mqttConfig.serverAddressMqttHolder, mqttServerAddress, sizeof(mqttConfig.serverAddressMqttHolder));
     saveMqttConfigAtStart = true;
   }
-  //if no mqtt server port is defined in config file store default
+  // If no mqtt server port is defined in config file store default
   if ((mqttConfig.serverPortMqttHolder != NULL) && (mqttConfig.serverPortMqttHolder[0] == '\0')) {
     PRINTS("\n")
     PRINT("no mqtt server port set, setting default mqtt server port: ", mqttServerPort);
     strlcpy(mqttConfig.serverPortMqttHolder, mqttServerPort, sizeof(mqttConfig.serverPortMqttHolder));
     saveMqttConfigAtStart = true;
   }
-  //if no mqtt topic prefix is defined in config file store default
+  // If no mqtt topic prefix is defined in config file store default
   if ((mqttConfig.topicPrefixMqttHolder != NULL) && (mqttConfig.topicPrefixMqttHolder[0] == '\0')) {
     PRINTS("\n")
     PRINT("no mqtt topic prefix set, setting default mqtt topic prefix: ", mqttTopicPrefix);

@@ -14,7 +14,7 @@ This is an ESP8266 based message board and it has been mainly put togheter to di
 You'll need to configure your wifi network by connecting to:
 ```
 Wifi SSID: ESP-MSG-ABCDEF  (where ABCDEF are the last 6 digit of mac address)
-Wifi Secret: wifi-setup
+Wifi Secret: 1234
 ```
 If the browser doesn't open/redirect automatically (it should on recent OSes) browse to http://192.168.4.1 and:
 1. Click on "Configure Wifi"

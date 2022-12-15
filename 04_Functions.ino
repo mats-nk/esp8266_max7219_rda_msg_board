@@ -68,19 +68,19 @@ uint8_t utf8Ascii(uint8_t ascii){
     c = ascii;
   }
   else {
-    switch (cPrev) {  // Conversion depending on preceding UTF8-character
+    switch (cPrev) {                      // Conversion depending on preceding UTF8-character
     case 0xC2: c = ascii;  break;
     case 0xC3: c = ascii | 0xC0;  break;
     case 0x82: if (ascii==0xAC) c = 0x80; // Euro symbol special case
     case 0xE2: 
       switch (ascii) {
-      case 0x80: c = 133;  break;// ellipsis special case
+      case 0x80: c = 133;  break;         // Ellipsis special case
       }
       break;
 
     //default: PRINTS("!Unhandled! ");
     }
-    cPrev = ascii;   // save last char
+    cPrev = ascii;                        // Save last char
   }
 
   //PRINT(" -> 0x", c);
@@ -100,7 +100,7 @@ void utf8Ascii(char* s) {
     if (c != '\0')
       *cp++ = c;
   }
-  *cp = '\0';   // terminate the new string
+  *cp = '\0';   // Terminate the new string
 }
 
 //void scrollDataSink(uint8_t dev, MD_MAX72XX::transformType_t t, uint8_t col) {
@@ -115,7 +115,7 @@ void utf8Ascii(char* s) {
 //#endif
 //}
 
-//Message send based on http URL argument request
+// Message send based on http URL argument request
 void onMessageCallHttp(void) {
   String message = "\nReceived request:\n";
   message += "URI: ";
@@ -258,14 +258,14 @@ void onMessageCallJson(String jsonMsgData){
 }
 
 void displayText() {
-  strcpy(curMessage, newMessage); // copy it in
+  strcpy(curMessage, newMessage);  // Copy it in
   M[0].msg = curMessage;
   
   if (atoi(newAsciiConv) == 1) {
     utf8Ascii(M[0].msg);
   }
   
-  //M[0].spacing = 1; //Character spacing defaults to 1 but you can change it here
+  //M[0].spacing = 1;  // Character spacing defaults to 1 but you can change it here
   //P.setScrollSpacing(0);
   PRINTS("\nScrolling Text");
   PRINT("\nCurrent Repeat: ", repeatCount);
@@ -288,8 +288,8 @@ void scrollTextParola() {
     ledBrightness = atoi(newBrightness);
     newBrightnessAvailable = false;
   }
-  p = curMessage;      // reset the pointer to start of message
-  if (newMessageAvailable) { // there is a new message waiting
+  p = curMessage;             // Reset the pointer to start of message
+  if (newMessageAvailable) {  // There is a new message waiting
     if ((P.displayAnimate())) {
       if (firstMessage == true) {
         displayText();
@@ -298,7 +298,7 @@ void scrollTextParola() {
       else {
         firstMessageOff = true;
       }
-	    //changed this from previous version
+	    // Changed this from previous version
       if ((newBuzAvailable) && (newMessageAvailable)) {
         strcpy(curMessage, newMessage);
         if (*p != '\0') {
@@ -366,7 +366,7 @@ void displaySilentMsg() {
   scrollTextParola();
 }
 
-// this will run just before the wifisetup server is started if there is no wifi ssid setup
+// This will run just before the wifisetup server is started if there is no wifi ssid setup
 void configModeCallback (WiFiManager *myWiFiManager) {
   wifiModeBuzzer();
   sprintf(newMessage, "WiFi Setup Mode - IP: %s - SSID: %s - Password: %s - Version: %s", "192.168.4.1", ap_mode_ssid, ap_mode_password, VERSION);
@@ -383,7 +383,7 @@ void rebootDevice() {
   ESP.restart();
 }
 
-//clears all configs
+// Clears all configs
 void factoryReset() {
   LittleFS.remove(webConfigFile);
   LittleFS.remove(mqttConfigFile);

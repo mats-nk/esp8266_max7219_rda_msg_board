@@ -1,4 +1,3 @@
-
 const char MAIN_page[] PROGMEM = R"=====(<!DOCTYPE html>
 <html>
 <head><meta name="viewport" content="width=device-width, initial-scale=1">
