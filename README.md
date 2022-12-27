@@ -1,5 +1,5 @@
 esp8266_max7219_rda_msg_board
-============================================================
+=============================
 MAX7219 RDA Message Board
 
 This is an ESP8266 based message board and it has been mainly put togheter to display scrolling messages from remote systems or users such as:
@@ -10,7 +10,7 @@ This is an ESP8266 based message board and it has been mainly put togheter to di
 
 
 "Wifi Setup Mode" on first start or on config wipe
----------------------------------
+--------------------------------------------------
 You'll need to configure your wifi network by connecting to:
 ```
 Wifi SSID: ESP-MSG-ABCDEF  (where ABCDEF are the last 6 digit of mac address)
@@ -31,7 +31,7 @@ Please Note: Locally you can also use the hostname in mdns format "ESP-MSG-ABCDE
 
 
 Default username and password:
----------------------------------
+------------------------------
 ```
 username: admin
 password: esp8266
@@ -41,7 +41,7 @@ password: esp8266
 
 
 Key Features:
----------------------------------
+-------------
 * HTTP webserver / message board web interface
 * Send messages via HTTP using automation systems or scripts ("URI" or "Json api" parameters supported) 
 * Send messages via MQTT Server (User Authentication or Anonymous) ("Json" parameters or "Plain" messages supported)
@@ -54,7 +54,7 @@ Key Features:
 
 
 UTF8 Extended ASCII Characters
----------------------------------
+------------------------------
 Character you can display as arguments
 ```
 !"$'()*,-./0123456789:<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~¡¢£€¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ
@@ -66,7 +66,7 @@ Characters that can't always be send as part of a message (with exception of nod
 Please Note: From the node-red import file node_red_flow.json (it uses MQTT) you'll find a sub-group with a function where I escape characters like backslash or double-quotes which can stop a message from displaying at all. This is particularly useful if working with RSS feeds in node-red.
 
 Board Wiring
----------------------------------
+------------
 ![wiring](images/wiring.gif)
 
 Specify number of LED modules used (change the below value in 01_Shared.h to 8, 12, etc..): 
@@ -87,7 +87,7 @@ Buzzer Pinout Code Definition (change pin below in 01_Shared.h if you use differ
 ```
 
 Web Interface
----------------------------------
+-------------
 ![homepage](images/homepage.jpg)
 
 ![password_change](images/password_change.jpg)
@@ -99,7 +99,7 @@ Web Interface
 
 
 Project Case Example 1
----------------------------------
+----------------------
 ![example_a1](images/example_a1.jpg)
 
 ![example_a2](images/example_a2.jpg)
@@ -107,7 +107,7 @@ Project Case Example 1
 
 
 Project Case Example 2
----------------------------------
+----------------------
 ![example_b1](images/example_b1.jpg)
 
 ![example_b2](images/example_b2.jpg)
@@ -116,7 +116,7 @@ Project Case Example 2
 
 
 URL Argument / HTTP-API and MQTT JSON Parameters:
----------------------------------
+-------------------------------------------------
 ```
 MSG -> Message to display on dot matrix
 REP -> Number of times the message scrolls horizontally across the dot matrix
@@ -205,7 +205,7 @@ Please Note: with a wildcard "#" at the end of the topic you would still be able
 
 
 Send Messages using curl from cli:
----------------------------------
+----------------------------------
 ```
 curl --user admin:esp8266 -X POST http://192.168.1.89/api -H 'Content-Type: application/json' -d '{"MSG":"This is a test message","REP":"4","BUZ":"10","DEL":"30","BRI":"7","ASC":"1"}'
 ```
@@ -227,7 +227,7 @@ see https://meyerweb.com/eric/tools/dencoder/ for URL encode and decode
 
 
 Send Messages from Home assistant Dashboard Card:
----------------------------------
+-------------------------------------------------
 ***Please Note: you'll have to use the base64 encoded as the username:password to send messages via HTTP***
 
 you should configure the following in your secrets.yaml file if you are using default credentials:
@@ -367,8 +367,7 @@ mode: single
 
 
 Home Assistant Feedreader
----------------------------------
-
+-------------------------
 You can also use home assistant RSS Feeds to send news text to the message board or even better NodeRed (which I prefer for this, included in the node-red import file node_red_flow.json)
 
 1. enter some rss feeds like the below for example in your home assistant configuration.yaml
@@ -484,7 +483,7 @@ mode: single
 
 
 Send messages from NodeRed
----------------------------------
+--------------------------
 Import file node_red_flow.json into nodered.
 
 Please Note: There are several subflows (look inside). 

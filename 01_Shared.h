@@ -1,10 +1,12 @@
 // Define the number of devices we have in the chain and the hardware interface
+//
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define MAX_DEVICES 4  // Number of MAX7219 devices
 #define CLK_PIN D5     // or SCK
 #define DATA_PIN D7    // or MOSI
 #define CS_PIN D8      // CS_PIN D8 for NodeMCU 1.0 (ESP12E-Module)
+#define BUZZER D1      // Define pin where the buzzer is connected
 
 // Edit LED matrix hardware type
 #define HARDWARE_TYPE MD_MAX72XX::FC16_HW
@@ -13,9 +15,6 @@
 MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // SOFTWARE SPI
 //MD_Parola P = MD_Parola(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
-
-// Define pin where the buzzer is connected
-#define BUZZER D1
 
 //WifiManager use mdns
 #define WM_MDNS 1
@@ -26,7 +25,7 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 #define PRINT_CALLBACK  0
 #define PAUSE_TIME  0
 
-// Flash button enabled/disaled
+// Flash button enabled/disabled
 #define ENABLE_FLASH_BUTTON 0
 
 #if ENABLE_FLASH_BUTTON
@@ -36,9 +35,9 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
   EasyButton flash_button(FLASH_BUTTON);
 #endif
 
-
 // You must enable either "HTTP_SERVER" or "HTTPS_SERVER" to "1", or both.
 // Set "HTTPS_SERVER 1" below to enable http server.
+#define HTTP_SERVER 1
 #define HTTP_PORT 80
 #include <ESP8266WebServer.h>
 ESP8266WebServer serverHttp(HTTP_PORT);
@@ -191,7 +190,7 @@ String apModeSSID;
 #define PRINTS(s)
 #endif
 
-//uint8_t degC[] = { 5, 3, 3, 56, 68, 68, 68 };                    // Deg C
+uint8_t degC[] = { 5, 3, 3, 56, 68, 68, 68 };                    // Deg C
 //uint8_t degF[] = { 6, 3, 3, 124, 20, 20, 4 };                    // Deg F
 //uint8_t waveSine[] = { 8, 1, 14, 112, 128, 128, 112, 14, 1 };    // Sine wave
 //uint8_t waveSqar[] = { 8, 1, 1, 255, 128, 128, 128, 255, 1 };    // Square wave

@@ -124,23 +124,17 @@ void setup() {
   else {
     PRINTS("\n\nError setting up MDNS responder!");
   }
-
   initMqtt();
 }
 
 
 void loop() {
-
   MDNS.update();
-
   handleHttpServer();
-
   checkMqtt();
-
   scrollTextParola(); 
 
-#if ENABLE_FLASH_BUTTON
-  flash_button.read();
-#endif
-
+  #if ENABLE_FLASH_BUTTON
+    flash_button.read();
+  #endif
 }
